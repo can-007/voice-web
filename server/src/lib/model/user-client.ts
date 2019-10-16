@@ -98,7 +98,8 @@ const UserClient = {
           accents.accent,
           locales.name AS locale,
           (SELECT COUNT(*) FROM clips WHERE u.client_id = clips.client_id) AS clips_count,
-          (SELECT COUNT(*) FROM votes WHERE u.client_id = votes.client_id) AS votes_count
+          (SELECT COUNT(*) FROM votes WHERE u.client_id = votes.client_id) AS votes_count,
+          accents.id
         FROM user_clients u
         LEFT JOIN user_client_accents accents on u.client_id = accents.client_id
         LEFT JOIN locales on accents.locale_id = locales.id

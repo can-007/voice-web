@@ -42,7 +42,7 @@ export default class Schema {
     await this.mysql.rootTransaction(
       `GRANT SELECT, INSERT, UPDATE, DELETE
        ON ${database}.* TO '${username}'@'${host}'
-       IDENTIFIED BY '${password}'; FLUSH PRIVILEGES;`
+       WITH GRANT OPTION; FLUSH PRIVILEGES;`
     );
 
     // Have the new user use the database.

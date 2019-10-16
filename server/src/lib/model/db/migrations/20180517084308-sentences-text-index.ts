@@ -1,6 +1,7 @@
 export const up = async function(db: any): Promise<any> {
   return db.runSql(
     `
+      ALTER TABLE sentences ROW_FORMAT=DYNAMIC;
       ALTER TABLE sentences ADD INDEX text_idx (text(300));
     `
   );
