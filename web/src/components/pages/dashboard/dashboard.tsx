@@ -35,7 +35,7 @@ const TopBar = ({
   const [, toLocaleRoute] = useLocale();
   const account = useAccount();
   const [isAboveMdWidth, setIsAboveMdWidth] = useState(true);
-  const isChallengeEnrolled = !account.challenge_team === null;
+  const isChallengeEnrolled = !isProduction();
   const isChallengeTabSelected = location.pathname.endsWith('/challenge');
 
   function setLocale(value: string) {
