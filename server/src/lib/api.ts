@@ -114,9 +114,10 @@ export default class API {
 
     router.post('/reports', this.createReport);
 
-    router.use('*', (request: Request, response: Response) => {
-      response.sendStatus(404);
-    });
+    router.get('/challenge/points/:email', this.getChallengePoint);
+    router.get('/challenge/weekly/:email/:date', this.getWeeklyChallenge);
+    router.get('/:locale/progress/detail/:email/:team', this.getTeamProgress);
+    router.get('/:locale/progress/team', this.getTopTeams);
 
     return router;
   }
@@ -399,5 +400,134 @@ export default class API {
   createReport = async ({ client_id, body }: Request, response: Response) => {
     await this.model.db.createReport(client_id, body);
     response.json({});
+  };
+
+  getChallengePoint = async (
+    { client_id, params: { email } }: Request,
+    response: Response
+  ) => {
+    response.json({
+      user: 448,
+      team: 12345,
+    });
+  };
+
+  getWeeklyChallenge = async (
+    { client_id, params: { email, date } }: Request,
+    response: Response
+  ) => {
+    response.json({
+      week: 1,
+      user: {
+        speak: 50,
+        speak_total: 200,
+        listen: 25,
+        listen_toal: 100,
+      },
+      team: {
+        invite: 12,
+        invite_total: 50,
+      },
+    });
+  };
+
+  getTeamProgress = async (
+    { client_id, params: { locale, email, team } }: Request,
+    response: Response
+  ) => {
+    response.json({
+      recorded: {
+        team: {
+          name: 'SAP',
+          points: 981,
+          approved: 53,
+          accuracy: 10.99,
+        },
+        member: [
+          {
+            ranking: 1,
+            name: 'AlmaV',
+            points: 142,
+            approved: 49,
+            accuracy: 7.27,
+          },
+          {
+            ranking: 2,
+            name: 'Wesley Caldwell',
+            points: 627,
+            approved: 32,
+            accuracy: 5.45,
+          },
+        ],
+      },
+      validated: {
+        total: {
+          name: 'SAP',
+          points: 981,
+          approved: 53,
+          accuracy: 10.99,
+        },
+        member: [
+          {
+            ranking: 1,
+            name: 'AlmaV',
+            points: 142,
+            approved: 49,
+            accuracy: 7.27,
+          },
+          {
+            ranking: 2,
+            name: 'Wesley Caldwell',
+            points: 627,
+            approved: 32,
+            accuracy: 5.45,
+          },
+        ],
+      },
+    });
+  };
+
+  getTopTeams = async (
+    { client_id, params: { locale } }: Request,
+    response: Response
+  ) => {
+    response.json({
+      recorded: [
+        {
+          ranking: 1,
+          name: 'SAP',
+          logo: 'base64...',
+          points: 12345,
+          approved: 53,
+          accuracy: 10.99,
+        },
+        {
+          ranking: 2,
+          name: 'Mozilla',
+          logo: 'base64...',
+          points: 12000,
+          approved: 53,
+          accuracy: 10.99,
+        },
+      ],
+      validated: [
+        {
+          ranking: 1,
+          name: 'SAP',
+          logo: 'base64...',
+          points: 12345,
+          approved: 53,
+          accuracy: 10.99,
+        },
+        {
+          ranking: 2,
+          name: 'Mozilla',
+          logo: 'base64...',
+          points: 12000,
+          approved: 53,
+          accuracy: 10.99,
+        },
+      ],
+    });
   };
 }
