@@ -419,10 +419,10 @@ export default class API {
     response.json({
       week: 1,
       user: {
-        speak: 50,
-        speak_total: 200,
-        listen: 25,
-        listen_toal: 100,
+        speak: 12,
+        speak_total: 400,
+        listen: 34,
+        listen_total: 654,
       },
       team: {
         invite: 12,
