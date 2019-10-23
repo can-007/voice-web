@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import WeeklyChallengeBoard from './weekly-challenge-board';
+import { useState, useEffect } from 'react';
+import { useAccount, useAPI } from '../../../../hooks/store-hooks';
 import './weekly-challenge.css';
 
 const WEEKS: Array<string> = [
@@ -16,14 +18,42 @@ const getCurrentWeek = (): number => {
   return now - startWeek;
 };
 
-export default function WeeklyChallenge() {
+export default function WeeklyChallenge({ isNarrow }: { isNarrow?: boolean }) {
   let currentWeek = getCurrentWeek();
-  let futureWeek: number = 0;
-  if (currentWeek - 1 < 0) {
-    futureWeek = currentWeek + 2;
-  } else if (currentWeek + 1 >= WEEKS.length) {
-    futureWeek = currentWeek - 2;
+  let pastWeek: Array<number> = [];
+  switch (currentWeek) {
+    case 0:
+      break;
+    case 1:
+      pastWeek.push(currentWeek - 1);
+      break;
+    case 2:
+      pastWeek.push(currentWeek - 1);
+      pastWeek.push(currentWeek - 2);
+      break;
   }
+  const label = pastWeek.length === 0 ? 'Future' : 'Past';
+  const date = new Date();
+
+  const api = useAPI();
+  const account = useAccount();
+
+  const [weekly, setWeekly] = useState({
+    current_week: 1,
+    user: {
+      speak: 50,
+      speak_total: 200,
+      listen: 50,
+      listen_total: 200,
+    },
+    team: {
+      invite: 50,
+      invite_total: 200,
+    },
+  });
+  useEffect(() => {
+    api.fetchWeeklyChallenge(account.email, date).then(setWeekly);
+  }, []);
   return (
     <div className="weekly-container">
       <div className="weekly-topbar">
@@ -51,25 +81,58 @@ export default function WeeklyChallenge() {
       <div className="weekly-content">
         <div>
           <p className="weekly-title">Current challenge</p>
-          <WeeklyChallengeBoard title={WEEKS[currentWeek]} week={currentWeek} />
+          {weekly && (
+            <WeeklyChallengeBoard
+              title={WEEKS[currentWeek]}
+              week={currentWeek}
+              isNarrow={isNarrow}
+              avatarUrl={account.avatar_url}
+              weekly={weekly}
+            />
+          )}
         </div>
-        {currentWeek < WEEKS.length - 1 && (
+        {pastWeek.length !== WEEKS.length - 1 && (
           <div>
             <p className="weekly-title">Next challenge</p>
-            <WeeklyChallengeBoard
-              isDisabled
-              title={WEEKS[currentWeek + 1]}
-              week={currentWeek + 1}
-            />
+            {weekly && (
+              <WeeklyChallengeBoard
+                isDisabled
+                title={WEEKS[currentWeek + 1]}
+                week={currentWeek + 1}
+                isNarrow={isNarrow}
+                avatarUrl={account.avatar_url}
+                weekly={weekly}
+              />
+            )}
           </div>
         )}
         <div>
-          <p className="weekly-title">Past/Futrue challenge</p>
-          <WeeklyChallengeBoard
-            isDisabled
-            title={WEEKS[futureWeek]}
-            week={futureWeek}
-          />
+          <p className="weekly-title">{label} challenge</p>
+          {label === 'Future'
+            ? weekly && (
+                <WeeklyChallengeBoard
+                  isDisabled
+                  title={WEEKS[currentWeek + 2]}
+                  week={currentWeek + 2}
+                  isNarrow={isNarrow}
+                  avatarUrl={account.avatar_url}
+                  weekly={weekly}
+                />
+              )
+            : pastWeek.map(
+                (value, index) =>
+                  weekly && (
+                    <WeeklyChallengeBoard
+                      isDisabled
+                      title={WEEKS[value]}
+                      week={value}
+                      key={index}
+                      isNarrow={isNarrow}
+                      avatarUrl={account.avatar_url}
+                      weekly={weekly}
+                    />
+                  )
+              )}
         </div>
       </div>
     </div>
