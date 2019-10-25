@@ -1,5 +1,5 @@
 export interface WeeklyChallenge {
-  current_week: number;
+  week: number;
   user: {
     speak: number;
     speak_total: number;
@@ -10,4 +10,24 @@ export interface WeeklyChallenge {
     invite: number;
     invite_total: number;
   };
+}
+
+export interface Challenge {
+  position: number;
+  name: string;
+  logo: string;
+  points: number;
+  approved: number;
+  accuracy: number;
+  cursor?: [number, number];
+}
+
+export interface TeamChallenge {
+  team: {
+    name: string;
+    points: number;
+    approved: number;
+    accuracy: number;
+  };
+  member: Array<Challenge>;
 }

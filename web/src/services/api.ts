@@ -1,7 +1,7 @@
 import { AllGoals, CustomGoalParams } from 'common/goals';
 import { LanguageStats } from 'common/language-stats';
 import { UserClient } from 'common/user-clients';
-import { WeeklyChallenge } from 'common/challenge';
+import { WeeklyChallenge, Challenge, TeamChallenge } from 'common/challenge';
 import { Locale } from '../stores/locale';
 import { User } from '../stores/user';
 import { USER_KEY } from '../stores/root';
@@ -35,7 +35,9 @@ export default class API {
 
   private async fetch(path: string, options: FetchOptions = {}): Promise<any> {
     const { method, headers, body, isJSON } = Object.assign(
-      { isJSON: true },
+      {
+        isJSON: true,
+      },
       options
     );
 
@@ -113,7 +115,9 @@ export default class API {
   saveVote(id: string, isValid: boolean): Promise<Event> {
     return this.fetch(`${this.getClipPath()}/${id}/votes`, {
       method: 'POST',
-      body: { isValid },
+      body: {
+        isValid,
+      },
     });
   }
 
@@ -130,9 +134,7 @@ export default class API {
   }
 
   fetchLocaleMessages(locale: string): Promise<string> {
-    return this.fetch(`/locales/${locale}/messages.ftl`, {
-      isJSON: false,
-    });
+    return this.fetch(`/locales/${locale}/messages.ftl`, { isJSON: false });
   }
 
   async fetchCrossLocaleMessages(): Promise<string[][]> {
@@ -148,7 +150,9 @@ export default class API {
   requestLanguage(language: string): Promise<void> {
     return this.fetch(`${API_PATH}/requested_languages`, {
       method: 'POST',
-      body: { language },
+      body: {
+        language,
+      },
     });
   }
 
@@ -157,9 +161,7 @@ export default class API {
   }
 
   fetchDocument(name: 'privacy' | 'terms'): Promise<string> {
-    return this.fetch(`/${name}/${this.locale}.html`, {
-      isJSON: false,
-    });
+    return this.fetch(`/${name}/${this.locale}.html`, { isJSON: false });
   }
 
   skipSentence(id: string) {
@@ -170,11 +172,24 @@ export default class API {
 
   fetchClipsStats(
     locale?: string
-  ): Promise<{ date: string; total: number; valid: number }[]> {
+  ): Promise<
+    {
+      date: string;
+      total: number;
+      valid: number;
+    }[]
+  > {
     return this.fetch(API_PATH + (locale ? '/' + locale : '') + '/clips/stats');
   }
 
-  fetchClipVoices(locale?: string): Promise<{ date: string; value: number }[]> {
+  fetchClipVoices(
+    locale?: string
+  ): Promise<
+    {
+      date: string;
+      value: number;
+    }[]
+  > {
     return this.fetch(
       API_PATH + (locale ? '/' + locale : '') + '/clips/voices'
     );
@@ -183,7 +198,12 @@ export default class API {
   fetchContributionActivity(
     from: 'you' | 'everyone',
     locale?: string
-  ): Promise<{ date: string; value: number }[]> {
+  ): Promise<
+    {
+      date: string;
+      value: number;
+    }[]
+  > {
     return this.fetch(
       API_PATH +
         (locale ? '/' + locale : '') +
@@ -208,16 +228,18 @@ export default class API {
   }
 
   subscribeToNewsletter(email: string): Promise<void> {
-    return this.fetch(API_PATH + '/newsletter/' + email, {
-      method: 'POST',
-    });
+    return this.fetch(API_PATH + '/newsletter/' + email, { method: 'POST' });
   }
 
   saveAvatar(type: 'default' | 'file' | 'gravatar', file?: Blob) {
     return this.fetch(API_PATH + '/user_client/avatar/' + type, {
       method: 'POST',
       isJSON: false,
-      ...(file ? { body: file } : {}),
+      ...(file
+        ? {
+            body: file,
+          }
+        : {}),
     }).then(body => JSON.parse(body));
   }
 
@@ -281,24 +303,66 @@ export default class API {
       API_PATH +
         '/user_client/awards/seen' +
         (kind == 'notification' ? '?notification' : ''),
-      {
-        method: 'POST',
-      }
+      { method: 'POST' }
     );
   }
 
   report(body: any) {
-    return this.fetch(API_PATH + '/reports', { method: 'POST', body });
+    return this.fetch(API_PATH + '/reports', {
+      method: 'POST',
+      body,
+    });
   }
 
-  //Challenge
+  // Challenge
   fetchChallengePoints(
     email?: string
-  ): Promise<{ user: number; team: number }> {
+  ): Promise<{
+    user: number;
+    team: number;
+  }> {
     return this.fetch(`${API_PATH}/challenge/points/${email}`);
   }
 
   fetchWeeklyChallenge(email?: string, date?: Date): Promise<WeeklyChallenge> {
     return this.fetch(`${API_PATH}/challenge/weekly/${email}/${date}`);
+  }
+
+  fetchTopTeams(
+    locale?: string,
+    type?: 'validated' | 'recorded',
+    cursor?: [number, number]
+  ): Promise<Challenge[]> {
+    return this.fetch(
+      `${API_PATH}/${locale}/top/teams/${type}?cursor=${
+        cursor ? JSON.stringify(cursor) : ''
+      }`
+    );
+  }
+
+  fetchTopContributors(
+    locale?: string,
+    type?: 'validated' | 'recorded',
+    cursor?: [number, number]
+  ): Promise<Challenge[]> {
+    return this.fetch(
+      `${API_PATH}/${locale}/top/contributors/${type}?cursor=${
+        cursor ? JSON.stringify(cursor) : ''
+      }`
+    );
+  }
+
+  fetchTeamProgress(
+    locale?: string,
+    type?: 'validated' | 'recorded',
+    cursor?: [number, number],
+    team?: string,
+    email?: string
+  ): Promise<TeamChallenge> {
+    return this.fetch(
+      `${API_PATH}/${locale}/top/member/${team}/${email}/${type}?cursor=${
+        cursor ? JSON.stringify(cursor) : ''
+      }`
+    );
   }
 }
