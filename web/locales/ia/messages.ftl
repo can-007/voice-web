@@ -202,9 +202,9 @@ x-years-short =
        *[other] annos
     }
 help-make-dataset = Adjuta nos a crear un collection de datos de alte qualitate, publicamente aperte
-sign-up-account = Registra te pro aperir tu conto
-email-subscription-title = registra tr pro reciper actualisationes via email
-email-subscription-title-new = Inscribe te al bulletines de novas, al mementos de objectivos e al actualisationes de progressos de Common Voice
+sign-up-account = Inscribe te pro un conto
+email-subscription-title = inscribe te pro reciper actualitates via e-mail
+email-subscription-title-new = Inscribe te al bulletines de novas, rememorationes de objectivos e actualitates sur le progresso de Common Voice
 
 ## Account Benefits
 
@@ -311,8 +311,8 @@ why-demographic-explanation = Le datos anonyme del usator como le etate, sexo e 
 accept-privacy = Io concorda que vos tracta iste informationes como vos explica in le <privacyLink>Politica de confidentialitate</privacyLink> de Mozilla
 accept-privacy-title = Politica de confidentialitate
 login-identity = Identitate de connexion
-login-signup = Connecter se / Registrar se
-edit = Editar
+login-signup = Aperir session / Inscriber se
+edit = Modificar
 email-subscriptions = Subscriptiones de email
 download-profile = Discargar mi datos
 contribution-experience = Experientia de la contribution
@@ -369,7 +369,7 @@ faq-is-goal-assistant-q = Es le scopo de Common Voice crear un assistente vocal?
 faq-is-goal-assistant-a = Le scopo del collection de datos de Common Voice es a activar quicunque in le mundo a crear applicationes de recognition de voce, recognition de orator o de ulle altere typo, que require datos vocal. Un assistente vocal es justo uno de multe typos de applicationes pro crear le qual on poterea usar le collection de datos.
 faq-do-want-native-q = Io es un parlante non-native e io parla con un accento, vole tu ancora mi voce?
 faq-do-want-native-a = Si, nos vole specialmente tu voce! Parte del scopo de Common Voice es colliger quanto plus differente accentos possibile assi que le servicios de recognition del voce labora equalmente ben pro totes. Isto significa que le donationes per le parlantes non-native es particularmente importante.
-faq-why-different-speakers-q = Perque tu besonia de tante differente parlantes per lingua?
+faq-why-different-speakers-q = Proque require vos tante differente parlantes per lingua?
 faq-why-different-speakers-a =
     Le major parte del bases de datos es maestrate con un super-representation de certe datos demographic que resultata in un prejudicio verso <articleLink>le classe masculin e medie</articleLink>.Accentos e dialectos que tende a ser sub-representate in le maestramento del collectiones de datos es typicamente associate con gruppos de personas qui es jam marginalisate. Multe machinas alsi es reluctante a comprender le voces feminin.
     Isto es perque in nostre base de datos de voces nos vole le varietate!
@@ -385,7 +385,7 @@ faq-where-src-from-2-q = Ab ubi veni le texto fonte?
 faq-where-src-from-2-a = Nostre texto fonte es producite per donationes de nostre collaboratores voluntari e per dialogos de films de public dominio como <italic>It’s a Wonderful Life</italic>.
 faq-why-not-ask-read-q = Perque non demanda tu al personas de leger ex libros o articulos de Wikipedia in differente linguas?
 faq-why-not-ask-read-a = Pro render le collection de datos de Common Voice le plus utile possibile, nos ha decidite de permitter solmente texto fonte que es disponibile sub licentia Creative Commons (CC0). Usar le standard CC0 significa que il es plus difficile trovar e colliger texto fonte, ma consenti a quicunque de usar le datos vocal resultante sin restrictiones o autorisation de Mozilla. Al fin, nos vole render le collection de datos multilingue le plus utile possibile pro totes, includente recercatores, universitates, interprisas emergente, governamentos, organisationes de propositos social e hobbyistas.
-faq-why-account-q = Perque deberea io registra me pro un conto?
+faq-why-account-q = Proque deberea io inscriber me pro un conto?
 faq-is-account-public-q = Es le informationes de mi conto public?
 faq-how-privacy-q = Como assecura vos le anonymitate e le confidentialitate del personas qui dona lor voces?
 faq-how-privacy-a = Tote le retalios vocal in le collection de datos es depurate de informationes personal. Quando un collaborator forni datos demographic via su profilo, ille informationes es disassociate de su retalios vocal ante de esser paccate pro discargamento in le collection de datos e non es jammais rendite public sur su pagina de profilo.
