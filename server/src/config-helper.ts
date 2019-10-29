@@ -65,7 +65,7 @@ const DEFAULTS: CommonVoiceConfig = {
     CLIENT_ID: '',
     CLIENT_SECRET: '',
   },
-  IMPORT_SENTENCES: true,
+  IMPORT_SENTENCES: false,
   REDIS_URL: null,
   KIBANA_URL: null,
 };
