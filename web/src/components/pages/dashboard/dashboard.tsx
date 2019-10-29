@@ -185,7 +185,6 @@ const TopBar = ({
       </div>
       {isChallengeTabSelected && (
         <ChallengeBar
-          email={account.email}
           isNarrow={!isAboveMdWidth}
           setShowInviteModal={setShowInviteModal}
         />
@@ -216,20 +215,15 @@ function DashboardContent({
 }
 
 interface ChallengeBarProps {
-  email?: string;
   isNarrow: boolean;
   setShowInviteModal(arg: any): void;
 }
-const ChallengeBar = ({
-  email,
-  isNarrow,
-  setShowInviteModal,
-}: ChallengeBarProps) => {
+const ChallengeBar = ({ isNarrow, setShowInviteModal }: ChallengeBarProps) => {
   const api = useAPI();
   const [points, setAllPoints] = useState({ user: 0, team: 0 });
 
   useEffect(() => {
-    api.fetchChallengePoints(email).then(setAllPoints);
+    api.fetchChallengePoints().then(setAllPoints);
   }, []);
   return (
     <div className="challenge-bar">
