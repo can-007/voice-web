@@ -160,7 +160,13 @@ function ProfilePage({
       locales: locales.filter(l => l.locale),
       visible: JSON.parse(visible.toString()),
       client_id: user.userId,
+      enrollment: user.userClients[0].enrollment || {
+        team: null,
+        challenge: null,
+        invite: null,
+      },
     };
+
     addUploads([
       async () => {
         if (!(user.account && user.account.basket_token) && sendEmails) {
@@ -325,23 +331,33 @@ function ProfilePage({
             <div className="checkboxes">
               <LabeledCheckbox
                 label={
-                  <Localized id="email-opt-in-info">
-                    <span />
-                  </Localized>
+                  <>
+                    <Localized id="email-opt-in-info-title">
+                      <strong />
+                    </Localized>
+                    <Localized id="email-opt-in-info-sub-with-challenge">
+                      <span />
+                    </Localized>
+                  </>
                 }
                 onChange={handleChangeFor('sendEmails')}
                 checked={sendEmails}
               />
 
               {!user.account && !isSubmitted && (
-                <React.Fragment>
+                <>
                   <LabeledCheckbox
                     label={
-                      <Localized
-                        id="accept-privacy"
-                        privacyLink={<LocaleLink to={URLS.PRIVACY} blank />}>
-                        <span />
-                      </Localized>
+                      <>
+                        <Localized id="accept-privacy-title">
+                          <strong />
+                        </Localized>
+                        <Localized
+                          id="accept-privacy"
+                          privacyLink={<LocaleLink to={URLS.PRIVACY} blank />}>
+                          <span />
+                        </Localized>
+                      </>
                     }
                     checked={privacyAgreed}
                     onChange={handleChangeFor('privacyAgreed')}
@@ -350,7 +366,7 @@ function ProfilePage({
                   <Localized id="read-terms-q">
                     <LocaleLink to={URLS.TERMS} className="terms" blank />
                   </Localized>
-                </React.Fragment>
+                </>
               )}
             </div>
           </div>

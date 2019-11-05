@@ -10,7 +10,9 @@ By participating in this project, you're agreeing to uphold the [Mozilla Communi
 
 ### Add More Sentences
 
-Help us add more sentences for other volunteers to read. See [this topic](https://discourse.mozilla.org/t/readme-how-to-see-my-language-on-common-voice/31530) for details.
+Help us add more sentences for other volunteers to read. We've written [a detailed guide on Discourse on how to contribute new sentences](https://discourse.mozilla.org/t/readme-how-to-see-my-language-on-common-voice/31530).
+
+**Please note**, we do **not** accept any direct pull requests for adding new sentences or changing localization content. All of that is managed and merged through Mozilla's Pontoon localization system. If you have any suggestions for adding or editing translations, please check out your language on the [Common Voice project on Pontoon](https://pontoon.mozilla.org/projects/common-voice/). A community reviewer will check and approve them, and then they will be auto-incorporated into the website in our next deployment.
 
 ### Bug Fixes and Feature Enhancements
 
@@ -52,8 +54,6 @@ This is going to:
 
 You can visit the website at [http://localhost:9000](http://localhost:9000).
 
-To modify the configuration listed in config-helper.ts (e.g server port), you need to modify the file `local-docker-config.json` in `voice-web/docker`.
-
 #### Local setup
 
 ###### Requirements
@@ -80,9 +80,25 @@ You can then access the website at [http://localhost:9000](http://localhost:9000
 
 #### Configuration
 
-You can find configurable options, like the port CommonVoice is running on, in `/server/src/config-helper.ts`. Just create a `/config.json` with the config you want to override.
+You can find configurable options, like the port Common Voice is running on, in `/server/src/config-helper.ts`. Just create a `/config.json` with the config you want to override. If you're using Docker, you may need to modify the file `/docker/local-docker-config.json` instead.
 
-If you want to work with login-related features (Profile, Dashboard, Goals, ...) you'll need to create an [Auth0](https://auth0.com/) account and put the data you get from it into the config.json file (the keys are `"AUTH0": { "DOMAIN": "<domain_here>", "CLIENT_ID": "<client_id_here>", "CLIENT_SECRET": "<client_secret_here>" }`).
+#### Authentication
+
+If you want to work with login-related features (Profile, Dashboard, Goals, ...) you'll need to set up authentication:
+
+1. Create an [Auth0](https://auth0.com/) account.
+2. Click "Applications" from the dashboard. Create a new one, or use the default application.
+3. Add `http://localhost:9000/callback` to the "Allowed Callback URLs" list.
+4. If you add any social integrations, make sure they request the user's email.
+5. Copy the following keys from the Auth0 application into `config.json` or `local-docker-config.json`:
+
+```
+"AUTH0": {
+ "DOMAIN": "<domain_here>",
+ "CLIENT_ID": "<client_id_here>",
+ "CLIENT_SECRET": "<client_secret_here>"
+}
+```
 
 #### Setting up Amazon S3 for development
 
