@@ -129,6 +129,9 @@ export default class Clip {
             client_id,
             challenge,
           ]),
+          challengeStartdateUTC: await this.model.db.getChallengeStartDateUTC(
+            challenge
+          ),
         }
       : { glob };
     response.json(ret);
@@ -236,6 +239,9 @@ export default class Clip {
               client_id,
               challenge,
             ]),
+            challengeStartdateUTC: await this.model.db.getChallengeStartDateUTC(
+              challenge
+            ),
           }
         : { filePrefix };
       response.json(ret);

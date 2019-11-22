@@ -20,6 +20,7 @@ export namespace Clips {
       firstContribute: boolean;
       firstStreak: boolean;
       hasAchieved: boolean;
+      challengeStartdateUTC: Date;
       next?: Clip;
     };
   }
@@ -117,6 +118,7 @@ export namespace Clips {
         firstContribute,
         hasAchieved,
         firstStreak,
+        challengeStartdateUTC,
       } = await state.api.saveVote(id, isValid);
       if (!state.user.account) {
         dispatch(User.actions.tallyVerification());
@@ -127,6 +129,7 @@ export namespace Clips {
           firstContribute,
           hasAchieved,
           firstStreak,
+          challengeStartdateUTC,
         });
       }
       User.actions.refresh()(dispatch, getState);
@@ -154,6 +157,7 @@ export namespace Clips {
           firstContribute: false,
           firstStreak: false,
           hasAchieved: false,
+          challengeStartdateUTC: new Date(),
         },
       }),
       {}
@@ -188,6 +192,7 @@ export namespace Clips {
             hasAchieved: false,
             firstContribute: false,
             firstStreak: false,
+            challengeStartdateUTC: new Date(),
             next,
           },
         };
@@ -207,6 +212,7 @@ export namespace Clips {
             hasAchieved: action.hasAchieved,
             firstContribute: action.firstContribute,
             firstStreak: action.firstStreak,
+            challengeStartdateUTC: new Date(),
           },
         };
       }

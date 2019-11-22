@@ -51,6 +51,7 @@ interface PropsFromState {
   firstContribute: boolean;
   hasAchieved: boolean;
   firstStreak: boolean;
+  challengeStartdateUTC: Date;
 }
 
 interface PropsFromDispatch {
@@ -142,12 +143,20 @@ class ListenPage extends React.Component<Props, State> {
       addAchievement,
       api,
       firstStreak,
+      challengeStartdateUTC,
     } = this.props;
     const clipIndex = this.getClipIndex();
 
     this.stop();
     this.props.vote(isValid, this.state.clips[this.getClipIndex()].id);
     sessionStorage.setItem('hasContributed', 'true');
+    sessionStorage.setItem(
+      'challengeFinished',
+      new Date().valueOf() - 21 * 24 * 60 * 60 * 1000 >
+        challengeStartdateUTC.valueOf()
+        ? 'true'
+        : 'false'
+    );
     if (firstContribute) {
       addAchievement(
         50,
@@ -162,7 +171,11 @@ class ListenPage extends React.Component<Props, State> {
         'success'
       );
     }
-    if (JSON.parse(sessionStorage.getItem('hasShared')) && !hasAchieved) {
+    if (
+      !JSON.parse(sessionStorage.getItem('challengeFinished')) &&
+      JSON.parse(sessionStorage.getItem('hasShared')) &&
+      !hasAchieved
+    ) {
       addAchievement(
         50,
         "You're on a roll! You sent an invite and contributed in the same session.",
@@ -363,6 +376,7 @@ const mapStateToProps = (state: StateTree) => {
     firstContribute,
     hasAchieved,
     firstStreak,
+    challengeStartdateUTC,
   } = Clips.selectors.localeClips(state);
   const { api } = state;
   return {
@@ -371,6 +385,7 @@ const mapStateToProps = (state: StateTree) => {
     firstContribute,
     hasAchieved,
     firstStreak,
+    challengeStartdateUTC,
     api,
     locale: state.locale,
   };

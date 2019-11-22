@@ -62,6 +62,9 @@ export default class Challenge {
           client_id,
           challenge
         ),
+        challengeStartdateUTC: await this.model.db.getChallengeStartDateUTC(
+          challenge
+        ),
       };
       response.json(achievement);
     }

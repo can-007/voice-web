@@ -393,12 +393,20 @@ class SpeakPage extends React.Component<Props, State> {
               firstContribute = false,
               hasAchieved = false,
               firstStreak = false,
+              challengeStartdateUTC = new Date(),
             } = await api.uploadClip(
               recording.blob,
               sentence.id,
               sentence.text
             );
             sessionStorage.setItem('hasContributed', 'true');
+            sessionStorage.setItem(
+              'challengeFinished',
+              new Date().valueOf() - 21 * 24 * 60 * 60 * 1000 >
+                challengeStartdateUTC.valueOf()
+                ? 'true'
+                : 'false'
+            );
             if (firstContribute) {
               addAchievement(
                 50,
@@ -414,6 +422,7 @@ class SpeakPage extends React.Component<Props, State> {
               );
             }
             if (
+              !JSON.parse(sessionStorage.getItem('challengeFinished')) &&
               JSON.parse(sessionStorage.getItem('hasShared')) &&
               !hasAchieved
             ) {
